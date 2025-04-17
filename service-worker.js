@@ -1,10 +1,12 @@
-const CACHE_NAME = 'eaglercraft-cache-v1';
+const CACHE_NAME = 'eaglercraft-offline-cache-v1';
+
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icon.png',
-  '/service-worker.js'
+  './',
+  './index.html',
+  './manifest.json',
+  './icon.png',
+  './service-worker.js'
+  // If your HTML loads anything else, add it here — but most offline builds don’t.
 ];
 
 self.addEventListener('install', event => {
@@ -19,8 +21,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
-    }).catch(() => {
-      return caches.match('/index.html');
-    })
+    }).catch(() => caches.match('./index.html'))
   );
 });
