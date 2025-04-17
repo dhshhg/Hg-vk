@@ -1,5 +1,11 @@
 const CACHE_NAME = 'eaglercraft-cache-v1';
-const urlsToCache = ['/', '/index.html'];
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon.png',
+  '/service-worker.js'
+];
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -13,6 +19,8 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request).then(response => {
       return response || fetch(event.request);
+    }).catch(() => {
+      return caches.match('/index.html');
     })
   );
 });
